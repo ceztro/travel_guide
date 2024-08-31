@@ -15,6 +15,9 @@ jobs:
       - name: Set AWS Region Environment Variable
         run: echo "AWS_REGION=${{ secrets.AWS_REGION }}" >> $GITHUB_ENV
 
+      - name: Add user to docker group
+        run: sudo usermod -aG docker $(whoami)
+
       - name: Login to Amazon ECR
         run: |
           aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin 871548798187.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
