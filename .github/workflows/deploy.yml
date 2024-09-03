@@ -31,8 +31,8 @@ jobs:
           REPOSITORY: travel_guide
           IMAGE_TAG: ${{ github.sha }}
         run: |
-          docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
-          docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
+          sudo docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
+          sudo docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
 
       - name: Update kubeconfig
         run: |
