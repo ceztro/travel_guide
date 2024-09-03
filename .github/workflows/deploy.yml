@@ -9,7 +9,7 @@ on:
 jobs:
   deploy:
     name: deploy
-    runs-on: [self-hosted, linux, high-memory]  # Specify labels to target specific runners
+    runs-on: [self-hosted, ubuntu]  # Specify labels to target specific runners
     steps:
       - uses: actions/checkout@v3
 
