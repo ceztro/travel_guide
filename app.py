@@ -16,6 +16,10 @@ class Post(db.Model):
     title = db.Column(db.String(100), nullable=False)
     content = db.Column(db.Text, nullable=False)
 
+# Create the database tables
+with app.app_context():
+    db.create_all()
+
 # Define the route for the home page
 @app.route('/')
 def index():
