@@ -33,11 +33,17 @@ jobs:
         run: |
           sudo docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
           sudo docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
+          echo "IMAGE_TAG=$IMAGE_TAG" >> $GITHUB_ENV
+          echo "REPOSITORY=$REPOSITORY" >> $GITHUB_ENV
 
       - name: Update kubeconfig
         run: |
           aws eks update-kubeconfig --region ${{ secrets.AWS_REGION }} --name ${{ secrets.CLUSTER_NAME }}
 
       - name: Deploy to EKS
+        env:
+          REGISTRY: ${{ env.REGISTRY }}
+          REPOSITORY: ${{ env.REPOSITORY }}
+          IMAGE_TAG: ${{ env.IMAGE_TAG }}
         run: |
           kubectl set image deployment/travel-guide-deployment travel-guide-container=$REGISTRY/$REPOSITORY:$IMAGE_TAG -n default
