@@ -42,6 +42,8 @@ jobs:
           repository: ceztro/ArgoCD_GitOps
           ref: dev
           path: git_ops
+          token: ${{ secrets.GIT_OPS_REPO_TOKEN }}
+          persist-credentials: true
 
       - name: Update image tag in values.yaml
         run: |
