@@ -36,14 +36,22 @@ jobs:
           echo "IMAGE_TAG=$IMAGE_TAG" >> $GITHUB_ENV
           echo "REPOSITORY=$REPOSITORY" >> $GITHUB_ENV
 
-      - name: Update kubeconfig
-        run: |
-          aws eks update-kubeconfig --region ${{ secrets.AWS_REGION }} --name ${{ secrets.CLUSTER_NAME }}
+      - name: Checkout GitOps Repository
+        uses: actions/checkout@v3
+        with:
+          repository: ceztro/ArgoCD_GitOps
+          ref: dev
+          path: git_ops
 
-      - name: Deploy to EKS
-        env:
-          REGISTRY: ${{ env.REGISTRY }}
-          REPOSITORY: ${{ env.REPOSITORY }}
-          IMAGE_TAG: ${{ env.IMAGE_TAG }}
+      - name: Update image tag in values.yaml
         run: |
-          kubectl set image deployment/travel-guide-deployment travel-guide-container=$REGISTRY/$REPOSITORY:$IMAGE_TAG -n default
+          sed -i "s/tag:.*/tag: ${{ env.IMAGE_TAG }}/" git_ops/travel_guide/values.yaml
+
+      - name: Commit and Push Changes to GitOps Repo
+        run: |
+          cd git_ops
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          git add travel_guide/values.yaml
+          git commit -m "Update image tag to ${{ env.IMAGE_TAG }}"
+          git push origin dev
