@@ -48,10 +48,12 @@ jobs:
           sed -i "s/tag:.*/tag: ${{ env.IMAGE_TAG }}/" git_ops/travel_guide/values.yaml
 
       - name: Commit and Push Changes to GitOps Repo
+        env:
+          GITHUB_TOKEN: ${{ secrets.GIT_OPS_REPO_TOKEN }}
         run: |
           cd git_ops
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
           git add travel_guide/values.yaml
           git commit -m "Update image tag to ${{ env.IMAGE_TAG }}"
-          git push https://x-access-token:${{ secrets.GIT_OPS_REPO_TOKEN }}@github.com/ceztro/ArgoCD_GitOps.git dev
+          git push origin dev
