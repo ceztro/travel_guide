@@ -50,6 +50,8 @@ jobs:
           sed -i "s/tag:.*/tag: ${{ env.IMAGE_TAG }}/" git_ops/travel_guide/values.yaml
 
       - name: Commit and Push Changes to GitOps Repo
+        env:
+          GITHUB_TOKEN: ${{ secrets.GIT_OPS_REPO_TOKEN }}
         run: |
           cd git_ops
           git config --global user.name "GitHub Actions"
