@@ -10,10 +10,13 @@ COPY . /app
 # Install any needed packages specified in requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Install psycopg2 and boto3 for PostgreSQL and AWS Secrets Manager access
+RUN pip install --no-cache-dir psycopg2-binary boto3
+
 # Make port 5000 available to the world outside this container
 EXPOSE 5000
 
-# Define environment variable
+# Set environment variable for Flask app name
 ENV NAME TravelGuidanceApp
 
 # Run app.py when the container launches
