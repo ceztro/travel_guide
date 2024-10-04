@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <h1>Travel Guidance Posts for 2024</h1>
+    <h1>Travel Guidance Posts for 2024 with unit tests</h1>
     <ul>
         {% for post in posts %}
             <li><strong>{{ post.title }}</strong>: {{ post.content }}</li>
