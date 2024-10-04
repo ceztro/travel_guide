@@ -1,5 +1,5 @@
 # Use the official Python image from the Docker Hub
-FROM python:3.9-slim
+FROM python:3.11.9-slim
 
 # Set the working directory
 WORKDIR /app
@@ -18,6 +18,7 @@ EXPOSE 5000
 
 # Set environment variable for Flask app name
 ENV NAME TravelGuidanceApp
+ENV DB_INSTANCE_IDENTIFIER travel-guide-rds
 
 # Run app.py when the container launches
 CMD ["python", "app.py"]
